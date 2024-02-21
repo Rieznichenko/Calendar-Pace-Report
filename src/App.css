@@ -1,0 +1,151 @@
+@import "~react-big-calendar/lib/css/react-big-calendar.css";
+
+/* Global styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #121212;
+  color: #fff;
+}
+
+/* Calendar styles */
+.rbc-calendar {
+  height: 100vh; /* Make the calendar take up the full viewport height */
+  padding: 20px;
+}
+
+/* Toolbar styling */
+.rbc-toolbar {
+  background-color: #1f1f1f;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.rbc-toolbar button {
+  color: #fff;
+  background-color: #333;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #444;
+}
+
+/* Month view day styling */
+.rbc-month-view, .rbc-time-view, .rbc-agenda-view {
+  background-color: #1f1f1f;
+  border-radius: 8px;
+}
+
+.rbc-day-bg {
+  background-color: #1f1f1f;
+}
+
+.rbc-today {
+  background-color: #333;
+}
+
+.rbc-month-row {
+  border-color: #333;
+}
+
+.rbc-header {
+  background-color: #1f1f1f;
+  color: #fff;
+  border-color: #333;
+}
+
+.rbc-row-content {
+  border-color: #333;
+}
+
+.rbc-selected-cell {
+  background-color: #3a3a3a;
+}
+
+.rbc-show-more {
+  color: #3174ad;
+  background-color: #1f1f1f;
+}
+
+/* Event styling */
+.rbc-event {
+  background-color: #3174ad;
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rbc-event:hover {
+  background-color: #4189c7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rbc-toolbar label {
+    font-size: 0.85em;
+  }
+
+  .rbc-toolbar button {
+    padding: 4px 8px;
+    font-size: 0.85em;
+  }
+}
+
+/* Hide the view options on the right side of the toolbar */
+.rbc-toolbar .rbc-btn-group:nth-child(2) {
+  display: none;
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
