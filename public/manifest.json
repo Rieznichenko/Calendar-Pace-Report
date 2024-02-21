@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Pace Report Generator",
+  "name": "Pace Report Generator",
   "icons": [
     {
       "src": "favicon.ico",
