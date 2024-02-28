@@ -25,14 +25,12 @@ const App = () => {
   }, []);
 
   const handleEventClick = async (event) => {
-    setIsLoading(true);
 
     try {
       await handleFileDownload(event.resource);
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
     }
   };
 
