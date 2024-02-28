@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { useQuery } from '@tanstack/react-query';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import './App.css';
@@ -9,20 +10,39 @@ import CustomToolbar from './components/CustomToolBar';
 import DateCellWrapper from './components/DateCellWrapper';
 import { getAllPaceReportStatus } from './lib/get-all-pace-report-status.lib';
 import { handleFileDownload } from './lib/handle-file-download.lib';
+import { checkUploadedFile } from './lib/check-uploaded-file';
 
 const localizer = momentLocalizer(moment);
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [events, setEvents] = useState([]);
+  const [didUserUploadFile, setDidUserUploadFile] = useState(true);
+  const [isLoadingFileChecking, setIsLoadingFileChecking] = useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
+  const handleCheckUploadedFile = useCallback(async (date) => {
+    setIsLoadingFileChecking(true);
 
-    getAllPaceReportStatus()
-      .then((res) => setEvents(res))
-      .finally(() => setIsLoading(false));
+    await checkUploadedFile(date)
+      .then(({ success }) => {
+        console.log({ success });
+
+        setDidUserUploadFile(success);
+      })
+      .finally(() => {
+        setIsLoadingFileChecking(false);
+      });
   }, []);
+
+  const { isLoading, events } = useQuery({
+    queryKey: ['get-data'],
+    queryFn: async () => {
+      const [res] = await Promise.all([
+        getAllPaceReportStatus(),
+        handleCheckUploadedFile(new Date()),
+      ]);
+
+      return res;
+    },
+  });
 
   const handleEventClick = async (event) => {
     try {
@@ -45,9 +65,14 @@ const App = () => {
           endAccessor="end"
           resourceAccessor="resource"
           onSelectEvent={handleEventClick}
+          onNavigate={(newDate) => handleCheckUploadedFile(newDate)}
           components={{
             toolbar: (props) => (
-              <CustomToolbar {...props} didUserUploadFile={false} />
+              <CustomToolbar
+                {...props}
+                isLoading={isLoadingFileChecking}
+                didUserUploadFile={didUserUploadFile}
+              />
             ),
             dateCellWrapper: (props) => (
               <DateCellWrapper data={events} {...props} />

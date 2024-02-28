@@ -1,10 +1,16 @@
 import React, { useCallback } from 'react';
 import { Navigate } from 'react-big-calendar';
 import { toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query';
 
-const CustomToolbar = ({ didUserUploadFile, ...toolbar }) => {
-  const handleFileUpload = useCallback(
-    (file) => {
+import { queryClient } from '../../index';
+
+import { uploadFile } from '../../lib/upload-file';
+
+const CustomToolbar = ({ didUserUploadFile, isLoading, ...toolbar }) => {
+  const { mutateAsync, isPending: isUploadingFile } = useMutation({
+    mutationKey: ['upload-file'],
+    mutationFn: async (file) => {
       if (!file) return;
 
       if (didUserUploadFile) {
@@ -14,13 +20,15 @@ const CustomToolbar = ({ didUserUploadFile, ...toolbar }) => {
       }
 
       const selectedDate = new Date(toolbar.date);
-      const selectedMonth = selectedDate.getMonth() + 1; // Adding 1 because getMonth() returns 0-indexed months
-      const selectedYear = selectedDate.getFullYear();
+      const month = selectedDate.getMonth() + 1; // Adding 1 because getMonth() returns 0-indexed months
+      const year = selectedDate.getFullYear();
 
-      console.log({ selectedYear, selectedMonth });
+      return uploadFile(file, { month, year });
     },
-    [toolbar, didUserUploadFile]
-  );
+    onSuccess: () => {
+      queryClient.refetchQueries('get-data');
+    },
+  });
 
   const handleNavigation = useCallback(
     (nav) => {
@@ -52,12 +60,20 @@ const CustomToolbar = ({ didUserUploadFile, ...toolbar }) => {
         type="file"
         style={{ display: 'none' }}
         id="file"
-        onChange={(e) => handleFileUpload(e.target.files[0])}
+        onChange={(e) => mutateAsync(e.target.files[0])}
         multiple={false}
         accept=".xlsx"
+        disabled={isLoading || didUserUploadFile}
       />
-      <label htmlFor="file" className="rbc-file-upload-label">
-        Upload
+      <label
+        htmlFor="file"
+        className="rbc-file-upload-label"
+        style={{
+          opacity: didUserUploadFile ? '0.75' : '1',
+          cursor: didUserUploadFile ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {isLoading || isUploadingFile ? 'Loading...' : 'Upload'}
       </label>
     </div>
   );

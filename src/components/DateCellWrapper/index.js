@@ -3,7 +3,7 @@ import React from 'react';
 import { handleFileDownload } from '../../lib/handle-file-download.lib';
 
 const DateCellWrapper = ({ children, value, data }) => {
-  const isThereSomething = data.find((item) => {
+  const isThereSomething = data?.find((item) => {
     const dateObject = new Date(item.start);
 
     dateObject.setHours(0);
