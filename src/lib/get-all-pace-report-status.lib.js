@@ -13,16 +13,19 @@ export async function getAllPaceReportStatus() {
     const response = await fetch(`${BASE_API_URL}/bwid/pace_report`);
 
     const data = await response.json();
-    function generateTitle(timestamp){
+
+    function generateTitle(timestamp) {
       let today = new Date(timestamp);
-      return `Pace Report on ${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      return `Pace Report on ${today.getFullYear()}-${
+        today.getMonth() + 1
+      }-${today.getDate()}`;
     }
 
     return data.map((item) => ({
       resource: item.destinationPath,
       start: new Date(item.timestamp),
       end: new Date(item.timestamp),
-      title: generateTitle(item.timestamp)
+      title: generateTitle(item.timestamp),
     }));
   } catch (error) {
     throw error;

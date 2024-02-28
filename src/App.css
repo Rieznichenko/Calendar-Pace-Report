@@ -1,4 +1,4 @@
-@import "~react-big-calendar/lib/css/react-big-calendar.css";
+@import '~react-big-calendar/lib/css/react-big-calendar.css';
 
 /* Global styles */
 body {
@@ -12,6 +12,11 @@ body {
   color: #fff;
 }
 
+button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
 /* Calendar styles */
 .rbc-calendar {
   height: 100vh; /* Make the calendar take up the full viewport height */
@@ -20,10 +25,9 @@ body {
 
 /* Toolbar styling */
 .rbc-toolbar {
-  background-color: #1f1f1f;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .rbc-toolbar button {
@@ -41,13 +45,23 @@ body {
 }
 
 /* Month view day styling */
-.rbc-month-view, .rbc-time-view, .rbc-agenda-view {
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
   background-color: #1f1f1f;
   border-radius: 8px;
 }
 
 .rbc-day-bg {
   background-color: #1f1f1f;
+}
+
+.rbc-file-upload-label {
+  padding: 5px;
+  border: #fff;
+  color: #fff;
+  cursor: pointer;
+  width: 122px;
 }
 
 .rbc-today {
@@ -66,6 +80,10 @@ body {
 
 .rbc-row-content {
   border-color: #333;
+}
+
+.rbc-toolbar-label {
+  max-width: fit-content;
 }
 
 .rbc-selected-cell {
@@ -109,7 +127,6 @@ body {
 .rbc-toolbar .rbc-btn-group:nth-child(2) {
   display: none;
 }
-
 
 .App {
   text-align: center;

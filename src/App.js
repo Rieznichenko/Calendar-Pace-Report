@@ -25,7 +25,6 @@ const App = () => {
   }, []);
 
   const handleEventClick = async (event) => {
-
     try {
       await handleFileDownload(event.resource);
     } catch (error) {
@@ -47,7 +46,9 @@ const App = () => {
           resourceAccessor="resource"
           onSelectEvent={handleEventClick}
           components={{
-            toolbar: CustomToolbar,
+            toolbar: (props) => (
+              <CustomToolbar {...props} didUserUploadFile={false} />
+            ),
             dateCellWrapper: (props) => (
               <DateCellWrapper data={events} {...props} />
             ),
