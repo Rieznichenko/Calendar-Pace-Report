@@ -23,8 +23,7 @@ const App = () => {
 
     await checkUploadedFile(date)
       .then(({ success }) => {
-        console.log({ success });
-
+        console.log(success);
         setDidUserUploadFile(success);
       })
       .finally(() => {
@@ -32,7 +31,7 @@ const App = () => {
       });
   }, []);
 
-  const { isLoading, events } = useQuery({
+  const { isLoading, data: events } = useQuery({
     queryKey: ['get-data'],
     queryFn: async () => {
       const [res] = await Promise.all([
@@ -40,8 +39,10 @@ const App = () => {
         handleCheckUploadedFile(new Date()),
       ]);
 
-      return res;
+      return Promise.resolve(res);
     },
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
   });
 
   const handleEventClick = async (event) => {
@@ -49,7 +50,6 @@ const App = () => {
       await handleFileDownload(event.resource);
     } catch (error) {
       console.error(error);
-    } finally {
     }
   };
 

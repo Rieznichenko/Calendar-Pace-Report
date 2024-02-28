@@ -25,7 +25,7 @@ const CustomToolbar = ({ didUserUploadFile, isLoading, ...toolbar }) => {
 
       return uploadFile(file, { month, year });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.refetchQueries('get-data');
     },
   });
@@ -39,17 +39,31 @@ const CustomToolbar = ({ didUserUploadFile, isLoading, ...toolbar }) => {
 
   return (
     <div className="rbc-toolbar">
-      <span className="rbc-btn-group">
+      <span
+        className="rbc-btn-group"
+        style={{
+          width: '145px',
+        }}
+      >
         <button
           type="button"
           onClick={() => handleNavigation(Navigate.PREVIOUS)}
+          disabled={isLoading}
         >
           &#8249;
         </button>
-        <button type="button" onClick={() => handleNavigation(Navigate.TODAY)}>
+        <button
+          type="button"
+          onClick={() => handleNavigation(Navigate.TODAY)}
+          disabled={isLoading}
+        >
           Today
         </button>
-        <button type="button" onClick={() => handleNavigation(Navigate.NEXT)}>
+        <button
+          type="button"
+          onClick={() => handleNavigation(Navigate.NEXT)}
+          disabled={isLoading}
+        >
           &#8250;
         </button>
       </span>
@@ -71,9 +85,14 @@ const CustomToolbar = ({ didUserUploadFile, isLoading, ...toolbar }) => {
         style={{
           opacity: didUserUploadFile ? '0.75' : '1',
           cursor: didUserUploadFile ? 'not-allowed' : 'pointer',
+          color: didUserUploadFile && 'red',
         }}
       >
-        {isLoading || isUploadingFile ? 'Loading...' : 'Upload'}
+        {isLoading || isUploadingFile
+          ? 'Loading...'
+          : didUserUploadFile
+          ? 'STA report already uploaded'
+          : 'Upload STA report'}
       </label>
     </div>
   );
