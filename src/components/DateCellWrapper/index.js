@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { handleFileDownload } from '../../lib/handle-file-download.lib';
+import { handleFileDownload } from "../../lib/handle-file-download.lib";
 
 const DateCellWrapper = ({ children, value, data }) => {
   const isThereSomething = data?.find((item) => {
@@ -18,42 +18,56 @@ const DateCellWrapper = ({ children, value, data }) => {
     return (
       <div
         style={{
-          borderRight: '1px solid white',
-          borderLeft: '1px solid white',
-          position: 'relative',
-          width: '100%',
+          borderRight: "1px solid white",
+          borderLeft: "1px solid white",
+          position: "relative",
+          width: "100%",
         }}
       >
         {children}
       </div>
     );
 
-  const handleDownloadClick = async (date) => {
+  const handleDownloadExcel = async (date) => {
     await handleFileDownload(isThereSomething.resource);
   };
-
+  const handleDownloadReport = async () => {
+    const reportURL = isThereSomething.resource.replace(/[^/]*\.xls$/, 'Analytics.xlsx');
+    alert(reportURL);
+    await handleFileDownload(reportURL);
+  }
   return (
-    <div style={{ width: '100%', position: 'relative' }}>
+    <div style={{ width: "100%", position: "relative" }}>
       <button
         style={{
-          border: 'none',
-          background: 'none',
-          cursor: 'pointer',
+          border: "none",
+          background: "none",
+          cursor: "pointer",
           padding: 5,
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
         }}
-        onClick={() => handleDownloadClick(value)}
         title="Download Excel"
       >
         <img
           src="/icons8-microsoft-excel-2019-240.png"
           alt="Download"
+          onClick={() => handleDownloadExcel(value)}
           style={{
-            width: 100,
-            height: 100,
+            width: 75,
+            height: 75,
+          }}
+        />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img
+          src="/report_2610528.png"
+          alt="Download"
+          onClick={() => handleDownloadReport(value)}
+          style={{
+            width: 82,
+            height: 70,
           }}
         />
       </button>
