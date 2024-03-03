@@ -33,7 +33,6 @@ const DateCellWrapper = ({ children, value, data }) => {
   };
   const handleDownloadReport = async () => {
     const reportURL = isThereSomething.resource.replace(/[^/]*\.xls$/, 'Analytics.xlsx');
-    alert(reportURL);
     await handleFileDownload(reportURL);
   }
   return (
